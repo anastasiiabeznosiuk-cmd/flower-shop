@@ -12,7 +12,12 @@ public interface FlowerRepository {
 
     List<Flower> findAll();
 
+    List<Flower> findByCategory(String category);
+
     Optional<Flower> findById(Long id);
 
     Flower save(Flower flower);
+
+    /** Повертає true, якщо квітку видалено, і false, якщо такої не було. */
+    boolean deleteById(Long id);
 }

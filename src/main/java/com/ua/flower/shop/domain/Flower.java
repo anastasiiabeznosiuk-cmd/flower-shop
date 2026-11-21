@@ -10,9 +10,10 @@ public class Flower {
 
     private Long id;
     private String name;          // назва, напр. "Троянда Red Naomi"
+    private String category;      // категорія: букет, композиція, у горщику (для фільтра)
     private String color;         // колір
-    private BigDecimal price;     // ціна букета, грн
-    private Integer stemsCount;   // кількість стебел у букеті
+    private BigDecimal price;     // ціна, грн
+    private Integer stemsCount;   // кількість стебел
     private String season;        // сезон цвітіння
     private String photoUrl;      // фото (для картки)
     private String description;   // опис (для сторінки квітки)
@@ -20,10 +21,11 @@ public class Flower {
     public Flower() {
     }
 
-    public Flower(Long id, String name, String color, BigDecimal price,
+    public Flower(Long id, String name, String category, String color, BigDecimal price,
                   Integer stemsCount, String season, String photoUrl, String description) {
         this.id = id;
         this.name = name;
+        this.category = category;
         this.color = color;
         this.price = price;
         this.stemsCount = stemsCount;
@@ -46,6 +48,14 @@ public class Flower {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getColor() {

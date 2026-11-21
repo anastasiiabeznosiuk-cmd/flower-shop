@@ -28,16 +28,31 @@ public class InMemoryFlowerRepository implements FlowerRepository {
     }
 
     @Override
+    public List<Flower> findByCategory(String category) {
+        // фільтр без урахування регістру: "Букет" і "букет" — одне й те саме
+        return storage.values().stream()
+                .filter(f -> f.getCategory() != null && f.getCategory().equalsIgnoreCase(category))
+                .sorted(Comparator.comparing(Flower::getId))
+                .toList();
+    }
+
+    @Override
     public Optional<Flower> findById(Long id) {
         return Optional.ofNullable(storage.get(id));
     }
 
     @Override
     public Flower save(Flower flower) {
+        // нова квітка (id == null) отримує наступний номер; наявна — перезаписується
         if (flower.getId() == null) {
             flower.setId(sequence.incrementAndGet());
         }
         storage.put(flower.getId(), flower);
         return flower;
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        return storage.remove(id) != null;
     }
 }
