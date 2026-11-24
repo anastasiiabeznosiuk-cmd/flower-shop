@@ -1,12 +1,9 @@
 package com.ua.flower.shop.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
 /**
- * Виняток «квітку не знайдено». Spring перетворює його на відповідь 404.
+ * Виняток «квітку не знайдено».
+ * Код 404 і тіло відповіді формує GlobalExceptionHandler.
  */
-@ResponseStatus(HttpStatus.NOT_FOUND)
 public class FlowerNotFoundException extends RuntimeException {
 
     public FlowerNotFoundException(Long id) {

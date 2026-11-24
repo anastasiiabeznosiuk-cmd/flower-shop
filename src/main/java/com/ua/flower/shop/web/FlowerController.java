@@ -4,6 +4,7 @@ import com.ua.flower.shop.service.FlowerService;
 import com.ua.flower.shop.web.dto.FlowerCardDto;
 import com.ua.flower.shop.web.dto.FlowerDetailDto;
 import com.ua.flower.shop.web.dto.FlowerRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,15 +47,16 @@ public class FlowerController {
     }
 
     // POST /api/flowers — створити квітку з JSON у тілі запиту → 201 Created
+    // @Valid: якщо дані некоректні → 400 (обробляє GlobalExceptionHandler)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public FlowerDetailDto create(@RequestBody FlowerRequest request) {
+    public FlowerDetailDto create(@Valid @RequestBody FlowerRequest request) {
         return flowerService.create(request);
     }
 
-    // PUT /api/flowers/{id} — повністю замінити квітку → 200 OK або 404
+    // PUT /api/flowers/{id} — повністю замінити квітку → 200 OK, 404 або 400
     @PutMapping("/{id}")
-    public FlowerDetailDto update(@PathVariable Long id, @RequestBody FlowerRequest request) {
+    public FlowerDetailDto update(@PathVariable Long id, @Valid @RequestBody FlowerRequest request) {
         return flowerService.update(id, request);
     }
 

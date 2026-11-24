@@ -55,4 +55,9 @@ public class InMemoryFlowerRepository implements FlowerRepository {
     public boolean deleteById(Long id) {
         return storage.remove(id) != null;
     }
+
+    @Override
+    public void deleteAll() {
+        storage.clear();
+    }
 }

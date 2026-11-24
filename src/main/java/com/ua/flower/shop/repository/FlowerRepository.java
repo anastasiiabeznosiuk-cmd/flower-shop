@@ -20,4 +20,7 @@ public interface FlowerRepository {
 
     /** Повертає true, якщо квітку видалено, і false, якщо такої не було. */
     boolean deleteById(Long id);
+
+    /** Видаляє всі квіти (потрібно тестам для «чистого старту»). */
+    void deleteAll();
 }
