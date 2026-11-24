@@ -101,3 +101,26 @@
 ```
 
 Очікувано: `BUILD SUCCESS`, `Failures: 0, Errors: 0`.
+
+## Звіт про покриття тестами (практична 1.5)
+
+### Матриця покриття
+
+| Сценарій | Тип тесту | Тести | Очікуваний результат |
+|----------|-----------|-------|----------------------|
+| findAll → список | unit + integration | `findAll_withoutCategory_returnsAllFlowers`, `findAll_withCategory_usesFilter`, `list_returnsFlowers`, `getAll_returnsExactlyWhatTestCreated` | 200, масив |
+| findById існуючий | unit + integration | `findById_returnsFlower`, `getOne_returnsFlowerDetail` | 200, деталі |
+| findById неіснуючий | unit + integration | `findById_throwsWhenNotFound`, `getOne_returns404WhenMissing` | 404 + тіло помилки |
+| create | unit + integration | `create_savesFlowerAndReturnsItWithNewId`, `create_returns201` | 201 |
+| create невалідний | integration | `create_returns400WhenBodyInvalid`, `create_invalidBody_returns400WithDetails` | 400 + перелік проблем |
+| update | unit + integration | `update_throwsWhenNotFound_andDoesNotSave`, `update_returns200`, `update_returns404WhenMissing`, `update_returns400WhenBodyInvalid` | 200 / 404 / 400 |
+| delete | unit + integration | `delete_removesExistingFlower`, `delete_throwsWhenNothingDeleted`, `delete_returns204`, `delete_returns404WhenMissing` | 204 / 404 |
+
+### Що не покрито і чому
+
+- **Успішне оновлення в модульному тесті сервісу.** Модульно перевірено лише гілку «не знайдено». Успішне оновлення перевіряє наскрізний тест `update_changesFlower`, бо логіка проста: перевірка існування і `save`.
+- **Маппер у тесті сервісу не замокано.** `FlowerMapper` простий і без залежностей, тому в `FlowerServiceImplTest` взято справжній (завдання це дозволяє). Окремо маппер покрито `FlowerMapperTest`.
+- **Синтаксично зламаний JSON і нечисловий id (`/api/flowers/abc`).** Такі запити повертають 400 стандартним обробником Spring. Завдання вимагало обробки 404 і 400 валідації, тому окремих обробників і тестів для них немає.
+- **Сидер `FlowerSeeder`.** Окремо не тестується: він лише наповнює демо-дані, а в наскрізних тестах сховище очищується перед кожним тестом.
+- **База даних.** У модулі 1 дані зберігаються в пам'яті; тести з реальною БД з'являться в модулі 2.
+- **Нефункціональні тести** (навантаження, безпека, швидкодія) — поза межами завдання.
